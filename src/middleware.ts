@@ -2,17 +2,6 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  // If it's the privacy page, skip authentication entirely
-  if (request.nextUrl.pathname === '/privacy') {
-    return NextResponse.next({
-      headers: {
-        'Cache-Control': 'public, max-age=3600',
-        'X-Robots-Tag': 'all',
-        'X-Frame-Options': 'ALLOW-FROM https://www.facebook.com'
-      }
-    })
-  }
-
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -60,18 +49,11 @@ export async function middleware(request: NextRequest) {
     '/settings'
   ]
 
-  // Public routes that don't require authentication
-  const publicRoutes = ['/privacy', '/auth']
-  
   const isProtectedRoute = protectedRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
 
-  const isPublicRoute = publicRoutes.some(route =>
-    request.nextUrl.pathname.startsWith(route)
-  )
-
-  if (isProtectedRoute && !isPublicRoute && !session) {
+  if (isProtectedRoute && !session) {
     return NextResponse.redirect(new URL('/auth/signin', request.url))
   }
 
@@ -88,7 +70,6 @@ export const config = {
     '/videos',
     '/dashboard',
     '/profile',
-    '/settings',
-    '/privacy'
+    '/settings'
   ],
 } 
