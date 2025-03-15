@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import Image from 'next/image'
 
 interface InsightsData {
@@ -31,30 +31,30 @@ export default function InsightsDashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchInsights = async () => {
-      try {
-        const response = await fetch('/api/instagram/insights', {
-          headers: {
-            'ngrok-skip-browser-warning': 'true'
-          }
-        })
-        const data = await response.json()
-        
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch insights')
+  const fetchInsights = useCallback(async () => {
+    try {
+      const response = await fetch('/api/instagram/insights', {
+        headers: {
+          'ngrok-skip-browser-warning': 'true'
         }
-        
-        setData(data)
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An error occurred')
-      } finally {
-        setLoading(false)
+      })
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch insights')
       }
+      
+      setData(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred')
+    } finally {
+      setLoading(false)
     }
-
-    fetchInsights()
   }, [])
+
+  useEffect(() => {
+    fetchInsights()
+  }, [fetchInsights])
 
   if (loading) return <div>Loading insights...</div>
   if (error) return <div className="text-red-500">Error: {error}</div>

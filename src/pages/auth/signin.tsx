@@ -14,11 +14,18 @@ interface FacebookResponse {
   };
 }
 
-interface Window {
-  FB: {
-    getLoginStatus(callback: (response: FacebookResponse) => void): void;
-  };
+interface FacebookSDK {
+  getLoginStatus(callback: (response: FacebookResponse) => void): void;
+  init(params: { appId: string; version: string }): void;
 }
+
+declare global {
+  interface Window {
+    FB: FacebookSDK;
+  }
+}
+
+type SocialProvider = 'instagram' | 'facebook' | 'linkedin';
 
 export default function SignInPage() {
   const router = useRouter()
@@ -53,7 +60,7 @@ export default function SignInPage() {
     }
   }
 
-  const handleSocialLogin = async (provider: 'instagram' | 'facebook' | 'linkedin') => {
+  const handleSocialLogin = async (provider: SocialProvider) => {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider,

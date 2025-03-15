@@ -2,24 +2,25 @@
 import { useState } from 'react'
 import { X, ChevronUp, ChevronDown } from 'lucide-react'
 
+interface SlotData {
+  time: string;
+  days: string[];
+}
+
 interface CreateSlotModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onSave: (slot: any) => void
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (slot: SlotData) => void;
 }
 
 export default function CreateSlotModal({ isOpen, onClose, onSave }: CreateSlotModalProps) {
-  const [date, setDate] = useState<Date | null>(null)
-  const [time, setTime] = useState<string>('')
-  const [duration, setDuration] = useState<number>(30)
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([])
-
-  if (!isOpen) return null
-
   const [hours, setHours] = useState(10)
   const [minutes, setMinutes] = useState(0)
   const [period, setPeriod] = useState<'AM' | 'PM'>('AM')
   const [selectedDays, setSelectedDays] = useState<string[]>([])
+
+  if (!isOpen) return null
+
   const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 
   const incrementHours = () => {
