@@ -36,18 +36,25 @@ export async function middleware(request: NextRequest) {
 
   const { data: { session } } = await supabase.auth.getSession()
 
-  // If there's no session and the user is trying to access a protected route
-  if (!session && !request.nextUrl.pathname.startsWith('/auth/')) {
-    const redirectUrl = request.nextUrl.clone()
-    redirectUrl.pathname = '/auth/signin'
-    return NextResponse.redirect(redirectUrl)
-  }
+  // Protected routes that require authentication
+  const protectedRoutes = [
+    '/',
+    '/find-inspiration',
+    '/prompts',
+    '/sources',
+    '/published-posts',
+    '/videos',
+    '/dashboard',
+    '/profile',
+    '/settings'
+  ]
 
-  // If there's a session and the user is on an auth page
-  if (session && request.nextUrl.pathname.startsWith('/auth/')) {
-    const redirectUrl = request.nextUrl.clone()
-    redirectUrl.pathname = '/create'
-    return NextResponse.redirect(redirectUrl)
+  const isProtectedRoute = protectedRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  if (isProtectedRoute && !session) {
+    return NextResponse.redirect(new URL('/auth/signin', request.url))
   }
 
   return response
@@ -63,7 +70,6 @@ export const config = {
     '/videos',
     '/dashboard',
     '/profile',
-    '/settings',
-    '/auth/:path*'
+    '/settings'
   ],
 } 
