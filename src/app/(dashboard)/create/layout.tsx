@@ -1,3 +1,4 @@
+'use client';
 'use client'
 
 import SourceSidebar from '@/components/layout/SourceSidebar'
