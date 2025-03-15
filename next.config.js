@@ -31,20 +31,11 @@ const nextConfig = {
     };
     return config;
   },
-  // Add static page handling
-  async rewrites() {
-    return [
-      {
-        source: '/legal/privacy',
-        destination: '/legal/privacy.html',
-      },
-    ]
-  },
-  // Ensure the privacy page is static
+  // Ensure static files are properly cached
   async headers() {
     return [
       {
-        source: '/legal/privacy',
+        source: '/legal/:path*',
         headers: [
           {
             key: 'Cache-Control',
