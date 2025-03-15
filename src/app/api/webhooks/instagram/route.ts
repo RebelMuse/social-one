@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
 // Handle GET requests for webhook verification
