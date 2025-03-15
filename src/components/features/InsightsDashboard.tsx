@@ -1,16 +1,7 @@
 'use client';
-'use client';
 
 import { useEffect, useState } from 'react'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer
-} from 'recharts'
+import Image from 'next/image'
 
 interface InsightsData {
   account_insights: Array<{
@@ -91,11 +82,14 @@ export default function InsightsDashboard() {
           {data.media.map((post) => (
             <div key={post.id} className="bg-gray-50 rounded-lg overflow-hidden">
               <a href={post.permalink} target="_blank" rel="noopener noreferrer">
-                <img
-                  src={post.media_url || post.thumbnail_url}
-                  alt={post.caption?.slice(0, 100) || 'Instagram post'}
-                  className="w-full h-64 object-cover"
-                />
+                <div className="relative w-full h-64">
+                  <Image
+                    src={post.media_url || post.thumbnail_url || ''}
+                    alt={post.caption?.slice(0, 100) || 'Instagram post'}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
               </a>
               <div className="p-4">
                 <p className="text-sm text-gray-600 mb-2">

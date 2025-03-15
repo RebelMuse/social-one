@@ -5,10 +5,15 @@ import { X, ChevronUp, ChevronDown } from 'lucide-react'
 interface CreateSlotModalProps {
   isOpen: boolean
   onClose: () => void
-  onSubmit: (time: string, days: string[]) => void
+  onSave: (slot: any) => void
 }
 
-export default function CreateSlotModal({ isOpen, onClose, onSubmit }: CreateSlotModalProps) {
+export default function CreateSlotModal({ isOpen, onClose, onSave }: CreateSlotModalProps) {
+  const [date, setDate] = useState<Date | null>(null)
+  const [time, setTime] = useState<string>('')
+  const [duration, setDuration] = useState<number>(30)
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([])
+
   if (!isOpen) return null
 
   const [hours, setHours] = useState(10)
@@ -143,7 +148,7 @@ export default function CreateSlotModal({ isOpen, onClose, onSubmit }: CreateSlo
         </div>
 
         <button 
-          onClick={() => onSubmit(formatTime(), selectedDays)}
+          onClick={() => onSave({ time: formatTime(), days: selectedDays })}
           className="mt-8 w-full rounded-lg bg-[#6C5CE7] py-4 text-center text-base font-medium text-white hover:bg-[#5B4ED1]"
         >
           Create

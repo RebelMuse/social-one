@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import { createBrowserClient } from '@supabase/ssr'
@@ -5,12 +7,17 @@ import { toast } from 'react-hot-toast'
 import Link from 'next/link'
 import Head from 'next/head'
 
-declare global {
-  interface Window {
-    FB: any;
-    checkLoginState: () => void;
-    statusChangeCallback: (response: any) => void;
-  }
+interface FacebookResponse {
+  status: string;
+  authResponse?: {
+    accessToken: string;
+  };
+}
+
+interface Window {
+  FB: {
+    getLoginStatus(callback: (response: FacebookResponse) => void): void;
+  };
 }
 
 export default function SignInPage() {
@@ -18,7 +25,6 @@ export default function SignInPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [fbLoaded, setFbLoaded] = useState(false)
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
