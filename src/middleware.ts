@@ -8,14 +8,18 @@ export async function middleware(request: NextRequest) {
                        userAgent.includes('Facebot')
 
   // Check if it's the privacy policy page
-  const isPrivacyPage = request.nextUrl.pathname.startsWith('/legal/privacy')
+  const isPrivacyPage = request.nextUrl.pathname === '/privacy' || 
+                       request.nextUrl.pathname === '/facebook-privacy.html'
 
-  // Allow Facebook bot and privacy page access without authentication
+  // Always bypass authentication for Facebook crawler and privacy pages
   if (isFacebookBot || isPrivacyPage) {
     return NextResponse.next({
       headers: {
-        'Cache-Control': 'public, max-age=3600, must-revalidate',
-        'X-Robots-Tag': 'all'
+        'Cache-Control': 'public, no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+        'X-Robots-Tag': 'all',
+        'Access-Control-Allow-Origin': '*'
       }
     })
   }
@@ -89,6 +93,7 @@ export const config = {
     '/dashboard',
     '/profile',
     '/settings',
-    '/legal/:path*'
+    '/privacy',
+    '/facebook-privacy.html'
   ],
 } 

@@ -3,27 +3,35 @@
   "public": true,
   "headers": [
     {
-      "source": "/legal/(.*)",
+      "source": "/facebook-privacy.html",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, max-age=3600, must-revalidate"
+          "value": "public, no-cache, no-store, must-revalidate"
         },
         {
-          "key": "X-Robots-Tag",
-          "value": "all"
+          "key": "Pragma",
+          "value": "no-cache"
+        },
+        {
+          "key": "Expires",
+          "value": "0"
         },
         {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "all"
         }
       ]
     }
   ],
   "rewrites": [
     {
-      "source": "/legal/privacy",
-      "destination": "/legal/privacy.html"
+      "source": "/privacy",
+      "destination": "/facebook-privacy.html"
     }
   ]
 } 
