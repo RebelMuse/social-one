@@ -2,6 +2,17 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // If it's the privacy page, skip authentication entirely
+  if (request.nextUrl.pathname === '/privacy') {
+    return NextResponse.next({
+      headers: {
+        'Cache-Control': 'public, max-age=3600',
+        'X-Robots-Tag': 'all',
+        'X-Frame-Options': 'ALLOW-FROM https://www.facebook.com'
+      }
+    })
+  }
+
   let response = NextResponse.next({
     request: {
       headers: request.headers,

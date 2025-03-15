@@ -3,13 +3,24 @@ import { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'Privacy Policy - SocialOne',
   description: 'Privacy Policy for SocialOne - Learn how we collect, use, and protect your information.',
+  robots: 'all',
   openGraph: {
     title: 'Privacy Policy - SocialOne',
     description: 'Privacy Policy for SocialOne - Learn how we collect, use, and protect your information.',
     type: 'website',
     url: process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/privacy` : undefined,
+    siteName: 'SocialOne',
+  },
+  other: {
+    'og:image:width': '1200',
+    'og:image:height': '630',
+    'og:locale': 'en_US',
+    'og:type': 'website',
   },
 }
+
+// Force the page to be static
+export const dynamic = 'force-static'
 
 export default function PrivacyPage() {
   return (
