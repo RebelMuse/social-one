@@ -1,13 +1,22 @@
 'use client';
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import PostEditor from '@/components/features/PostEditor'
 import PlatformPreview from '@/components/features/PlatformPreview'
 import { getDraftById, Post } from '@/lib/supabase'
+import CreateSlotModal from '@/components/features/CreateSlotModal'
 
-export default function CreatePage() {
+function CreatePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CreatePageContent />
+    </Suspense>
+  )
+}
+
+function CreatePageContent() {
   const searchParams = useSearchParams()
   const draftId = searchParams.get('draft')
   
@@ -16,6 +25,7 @@ export default function CreatePage() {
   const [mediaFiles, setMediaFiles] = useState<Array<{ preview: string; type: 'image' | 'video' }>>([])
   const [currentDraft, setCurrentDraft] = useState<Post | null>(null)
   const [isLoading, setIsLoading] = useState(!!draftId)
+  const isOpen = searchParams.get('modal') === 'create-slot'
 
   useEffect(() => {
     async function loadDraft() {
@@ -73,7 +83,18 @@ export default function CreatePage() {
             ))}
           </div>
         )}
+
+        <CreateSlotModal 
+          isOpen={isOpen} 
+          onClose={() => window.history.back()}
+          onSave={(data) => {
+            console.log('Saving slot:', data)
+            window.history.back()
+          }}
+        />
       </div>
     </div>
   )
-} 
+}
+
+export default CreatePage 

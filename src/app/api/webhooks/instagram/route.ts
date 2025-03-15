@@ -3,6 +3,8 @@ import { headers } from 'next/headers'
 import { createRouteHandlerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+export const dynamic = 'force-dynamic'
+
 // Handle GET requests for webhook verification
 export async function GET(request: Request) {
   const searchParams = new URL(request.url).searchParams
