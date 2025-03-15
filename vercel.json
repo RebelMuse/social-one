@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "public": true,
+  "routes": [
+    {
+      "src": "/legal/privacy.html",
+      "dest": "/legal/privacy.html",
+      "headers": {
+        "cache-control": "public, max-age=3600, must-revalidate",
+        "x-robots-tag": "all"
+      },
+      "continue": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/legal/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "all"
+        }
+      ]
+    }
+  ]
+} 
