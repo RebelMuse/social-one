@@ -98,8 +98,8 @@ export async function POST(request: Request) {
 }
 
 async function handleMediaUpdate(value: any) {
-  // Store media update in Supabase or process it
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = cookies()
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
   await supabase.from('instagram_updates').insert({
     type: 'media',
     data: value,
@@ -108,8 +108,8 @@ async function handleMediaUpdate(value: any) {
 }
 
 async function handleCommentUpdate(value: any) {
-  // Store comment update in Supabase or process it
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = cookies()
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
   await supabase.from('instagram_updates').insert({
     type: 'comment',
     data: value,
@@ -118,8 +118,8 @@ async function handleCommentUpdate(value: any) {
 }
 
 async function handleMentionUpdate(value: any) {
-  // Store mention update in Supabase or process it
-  const supabase = createRouteHandlerClient({ cookies })
+  const cookieStore = cookies()
+  const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
   await supabase.from('instagram_updates').insert({
     type: 'mention',
     data: value,

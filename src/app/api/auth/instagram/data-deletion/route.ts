@@ -17,7 +17,8 @@ export async function POST(request: Request) {
     const userId = decodedPayload.user_id
 
     // Delete all user data from your database
-    const supabase = createRouteHandlerClient({ cookies })
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
     
     // Delete Instagram account data
     await supabase.from('instagram_accounts')
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
       .eq('user_id', userId)
 
     return new NextResponse(JSON.stringify({
-      url: `https://f337-142-113-213-209.ngrok-free.app/api/auth/instagram/data-deletion/status`,
+      url: `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/instagram/data-deletion/status`,
       confirmation_code: userId
     }))
   } catch (error) {

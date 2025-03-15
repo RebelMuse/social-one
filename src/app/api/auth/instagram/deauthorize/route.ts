@@ -17,7 +17,8 @@ export async function POST(request: Request) {
     const userId = decodedPayload.user_id
 
     // Remove the Instagram account from your database
-    const supabase = createRouteHandlerClient({ cookies })
+    const cookieStore = cookies()
+    const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
     await supabase.from('instagram_accounts')
       .delete()
       .eq('user_id', userId)
