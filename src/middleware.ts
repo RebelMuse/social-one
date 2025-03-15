@@ -2,20 +2,6 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  // Public routes that don't require authentication
-  const publicRoutes = ['/privacy', '/facebook-privacy.html']
-  if (publicRoutes.includes(request.nextUrl.pathname)) {
-    return NextResponse.next({
-      headers: {
-        'Cache-Control': 'public, no-cache, no-store, must-revalidate',
-        'Pragma': 'no-cache',
-        'Expires': '0',
-        'X-Robots-Tag': 'all',
-        'Access-Control-Allow-Origin': '*'
-      }
-    })
-  }
-
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -74,6 +60,7 @@ export async function middleware(request: NextRequest) {
   return response
 }
 
+// Only match protected routes
 export const config = {
   matcher: [
     '/',
@@ -84,8 +71,6 @@ export const config = {
     '/videos',
     '/dashboard',
     '/profile',
-    '/settings',
-    '/privacy',
-    '/facebook-privacy.html'
+    '/settings'
   ],
 } 
