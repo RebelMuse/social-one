@@ -2,17 +2,9 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  // Check if it's Facebook's crawler
-  const userAgent = request.headers.get('user-agent') || ''
-  const isFacebookBot = userAgent.includes('facebookexternalhit') || 
-                       userAgent.includes('Facebot')
-
-  // Check if it's the privacy policy page
-  const isPrivacyPage = request.nextUrl.pathname === '/privacy' || 
-                       request.nextUrl.pathname === '/facebook-privacy.html'
-
-  // Always bypass authentication for Facebook crawler and privacy pages
-  if (isFacebookBot || isPrivacyPage) {
+  // Public routes that don't require authentication
+  const publicRoutes = ['/privacy', '/facebook-privacy.html']
+  if (publicRoutes.includes(request.nextUrl.pathname)) {
     return NextResponse.next({
       headers: {
         'Cache-Control': 'public, no-cache, no-store, must-revalidate',
@@ -92,6 +84,8 @@ export const config = {
     '/videos',
     '/dashboard',
     '/profile',
-    '/settings'
+    '/settings',
+    '/privacy',
+    '/facebook-privacy.html'
   ],
 } 
