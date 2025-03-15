@@ -92,8 +92,6 @@ export const config = {
     '/videos',
     '/dashboard',
     '/profile',
-    '/settings',
-    '/privacy',
-    '/facebook-privacy.html'
+    '/settings'
   ],
 } 
