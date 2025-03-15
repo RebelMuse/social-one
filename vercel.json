@@ -1,17 +1,6 @@
 {
   "version": 2,
   "public": true,
-  "routes": [
-    {
-      "src": "/legal/privacy.html",
-      "dest": "/legal/privacy.html",
-      "headers": {
-        "cache-control": "public, max-age=3600, must-revalidate",
-        "x-robots-tag": "all"
-      },
-      "continue": true
-    }
-  ],
   "headers": [
     {
       "source": "/legal/(.*)",
@@ -23,8 +12,18 @@
         {
           "key": "X-Robots-Tag",
           "value": "all"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/legal/privacy",
+      "destination": "/legal/privacy.html"
     }
   ]
 } 
