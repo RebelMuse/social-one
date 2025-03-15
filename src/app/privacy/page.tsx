@@ -1,3 +1,16 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy - SocialOne',
+  description: 'Privacy Policy for SocialOne - Learn how we collect, use, and protect your information.',
+  openGraph: {
+    title: 'Privacy Policy - SocialOne',
+    description: 'Privacy Policy for SocialOne - Learn how we collect, use, and protect your information.',
+    type: 'website',
+    url: process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/privacy` : undefined,
+  },
+}
+
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-white py-16 px-4 sm:px-6 lg:px-8">

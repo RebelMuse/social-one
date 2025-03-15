@@ -49,11 +49,18 @@ export async function middleware(request: NextRequest) {
     '/settings'
   ]
 
+  // Public routes that don't require authentication
+  const publicRoutes = ['/privacy', '/auth']
+  
   const isProtectedRoute = protectedRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
 
-  if (isProtectedRoute && !session) {
+  const isPublicRoute = publicRoutes.some(route =>
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  if (isProtectedRoute && !isPublicRoute && !session) {
     return NextResponse.redirect(new URL('/auth/signin', request.url))
   }
 
@@ -70,6 +77,7 @@ export const config = {
     '/videos',
     '/dashboard',
     '/profile',
-    '/settings'
+    '/settings',
+    '/privacy'
   ],
 } 
