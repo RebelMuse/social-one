@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SocialOne Privacy Policy
 
-## Getting Started
+This repository contains the privacy policy for SocialOne, hosted on GitHub Pages.
 
-First, run the development server:
+## Setup Instructions
 
+1. **DNS Configuration**
+   - Add a CNAME record for `socialone.suite.to` pointing to `[your-github-username].github.io`
+   - The CNAME record should look like:
+     ```
+     Type: CNAME
+     Host: socialone.suite.to
+     Value: [your-github-username].github.io
+     TTL: 3600
+     ```
+
+2. **GitHub Pages Configuration**
+   - Go to repository Settings > Pages
+   - Under "Build and deployment":
+     - Source: GitHub Actions
+     - Branch: main
+   - Under "Custom domain":
+     - Enter: socialone.suite.to
+     - Check "Enforce HTTPS"
+
+3. **Meta Developer Console Update**
+   After the site is live, update your Meta Developer Console with:
+   ```
+   Privacy Policy URL: https://socialone.suite.to/privacy
+   ```
+
+## Local Development
+
+To test locally, you can use Python's built-in HTTP server:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd privacy-policy
+python -m http.server 8000
 ```
+Then visit `http://localhost:8000` in your browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## File Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+.
+├── .github/
+│   └── workflows/
+│       └── deploy.yml    # GitHub Actions workflow
+├── privacy-policy/
+│   └── index.html       # Privacy policy page
+└── README.md            # This file
+```
